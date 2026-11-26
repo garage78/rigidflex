@@ -95,22 +95,47 @@ def banner() -> None:
         ImageDraw.Draw(m).rounded_rectangle([0, 0, c.width - 1, c.height - 1], 16, fill=255)
         im.paste(c, box[:2], m)
 
-    orange, grey = (234, 107, 40), (150, 162, 176)
-    d.text((80, 70), "SNAPMAKER U1 · RIGID + TPU", font=font(26, 2), fill=orange)
-    d.text((76, 108), "rigidflex", font=font(108, 2), fill=(255, 255, 255))
-    d.text((80, 250), "Rigid + TPU in one print, measured.", font=font(40, 0), fill=(225, 231, 238))
-    d.text((80, 302), "Open bond-test kit · motorised pull rig · curves", font=font(28, 0), fill=grey)
-    d.text((80, 340), "2–3 materials per part · Orca-ready 3MF · real parts", font=font(28, 0), fill=grey)
-    card("A_dovetail.png", (80, 430, 360, 170))
-    card("G_graded.png", (460, 430, 360, 170))
-    d.text((80, 612), "Bond-test coupon · 2 materials", font=font(20, 0), fill=grey)
-    d.text((460, 612), "Graded joint · 3 materials", font=font(20, 0), fill=grey)
-    card("pull_rig.jpg", (880, 70, 640, 380))
-    d.text((900, 400), "Pull rig · 50 kg load cell · ESP32 · NEMA17", font=font(20, 2), fill=(60, 66, 74))
-    card("grommet_3mat.png", (880, 470, 300, 170))
-    card("soft_jaw.png", (1200, 470, 320, 170))
-    d.text((880, 652), "Grommet · soft sealing lip", font=font(20, 0), fill=grey)
-    d.text((1200, 652), "TPU-faced soft jaws", font=font(20, 0), fill=grey)
+    def photo(name: str, box: tuple[int, int, int, int], radius: int = 14, region=None, top_align=False, pad=0) -> None:
+        # fill the box (cover crop), rounded corners
+        r = Image.open(IMG / name).convert("RGB")
+        if region:
+            r = r.crop(region)
+        if pad:  # breathing room around a screenshot, in the page's own background colour
+            bg = Image.new("RGB", (r.width + 2 * pad, r.height + pad), r.getpixel((r.width // 2, r.height - 2)))
+            bg.paste(r, (pad, pad))
+            r = bg
+        scale = max(box[2] / r.width, box[3] / r.height)
+        r = r.resize((round(r.width * scale), round(r.height * scale)), Image.LANCZOS)
+        left = (r.width - box[2]) // 2
+        top = 0 if top_align else (r.height - box[3]) // 2
+        r = r.crop((left, top, left + box[2], top + box[3]))
+        m = Image.new("L", r.size, 0)
+        ImageDraw.Draw(m).rounded_rectangle([0, 0, r.width - 1, r.height - 1], radius, fill=255)
+        im.paste(r, box[:2], m)
+
+    orange, grey, white = (234, 107, 40), (150, 162, 176), (255, 255, 255)
+    d.text((80, 62), "SNAPMAKER U1 · RIGID + TPU", font=font(24, 2), fill=orange)
+    d.text((76, 94), "rigidflex", font=font(100, 2), fill=white)
+    d.text((80, 228), "Rigid + TPU in one print, measured.", font=font(38, 0), fill=(225, 231, 238))
+    # call to action: the live configurator
+    d.rounded_rectangle([80, 292, 652, 366], 37, fill=orange)
+    d.polygon([(112, 313), (112, 345), (138, 329)], fill=white)
+    d.text((154, 329), "Try it in your browser", font=font(32, 2), fill=white, anchor="lm")
+    d.text((80, 396), "Configure · see it in 3D · download a U1-ready 3MF", font=font(24, 0), fill=grey)
+    d.text((80, 430), "Motorised pull rig · 180 coupons · open data", font=font(24, 0), fill=grey)
+    # simulated test frame and the three-material coupon
+    photo("pull_test_frame.jpg", (80, 486, 360, 158), region=(0, 30, 1920, 870))
+    card("G_graded.png", (460, 486, 300, 158))
+    d.text((80, 652), "Pull rig, simulated test", font=font(18, 0), fill=grey)
+    d.text((460, 652), "Graded joint · 3 materials", font=font(18, 0), fill=grey)
+    # the configurator in a browser frame
+    bx, by, bw, bh = 840, 62, 690, 582
+    d.rounded_rectangle([bx, by, bx + bw, by + bh], 16, fill=(236, 233, 226))
+    for i, c in enumerate([(237, 106, 94), (245, 191, 79), (98, 197, 84)]):
+        d.ellipse([bx + 20 + i * 22, by + 16, bx + 32 + i * 22, by + 28], fill=c)
+    d.rounded_rectangle([bx + 100, by + 10, bx + bw - 20, by + 34], 12, fill=(255, 255, 255))
+    d.text((bx + 116, by + 22), "garage78.github.io/rigidflex", font=font(16, 0), fill=(93, 102, 114), anchor="lm")
+    photo("web_grommet.png", (bx + 1, by + 44, bw - 2, bh - 45), radius=12, top_align=True, pad=18)
     im.save(IMG / "banner.jpg", quality=90)
 
 
