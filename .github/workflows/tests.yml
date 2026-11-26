@@ -1,0 +1,32 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OpenSCAD
+        run: sudo apt-get update && sudo apt-get install -y openscad
+      - name: Unit tests (Python, OpenSCAD models, firmware logic in C++)
+        run: python -m unittest discover -s tests -t . -v
+      - name: Generate the full campaign
+        run: python -m rigidflex plan -o /tmp/campaign && ls /tmp/campaign/plates
+      - name: Guided session against the simulated rig
+        run: printf '\n\n\n\n\n\nq\n' | python -m rigidflex test /tmp/campaign/results.csv --simulate --series G
+
+  firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile the rig firmware for the ESP32
+        uses: arduino/compile-sketches@v1
+        with:
+          fqbn: esp32:esp32:esp32
+          platforms: |
+            - name: esp32:esp32
+              source-url: https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          sketch-paths: |
+            - firmware/rigidflex_rig

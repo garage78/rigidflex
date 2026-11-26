@@ -1,0 +1,8 @@
+series,rigid,tpu,joint,overlap_mm,tpu_temp_c,toolchange_order,conditioning,specimen,width_mm,peak_force_n,failure_mode,notes
+A,PETG,TPU95A,flat,,230,,48h-RT,1,20,100,bond,SYNTHETIC test fixture - not measured data
+A,PETG,TPU95A,flat,,230,,48h-RT,2,20,110,bond,SYNTHETIC
+A,PETG,TPU95A,flat,,230,,48h-RT,3,20,90,bond,SYNTHETIC
+A,PETG,TPU95A,dovetail,,230,,48h-RT,1,20,200,tpu,SYNTHETIC
+A,PETG,TPU95A,dovetail,,230,,48h-RT,2,20,210,tpu,SYNTHETIC
+A,PETG,TPU95A,dovetail,,230,,48h-RT,3,20,190,bond,SYNTHETIC
+A,PLA,TPU95A,flat,,230,,48h-RT,1,20,150,bond,SYNTHETIC

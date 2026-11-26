@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rigidflex"
+version = "0.2.0"
+description = "Rigid + TPU multi-material parts and bond tests for the Snapmaker U1"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+rig = ["pyserial>=3.5"]   # only to talk to the real pull-test rig
+
+[project.scripts]
+rigidflex = "rigidflex.cli:main"
+
+[tool.setuptools]
+packages = ["rigidflex"]
