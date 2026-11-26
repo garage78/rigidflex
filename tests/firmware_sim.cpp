@@ -1,6 +1,8 @@
 // Host test of the rig firmware logic (firmware/rigidflex_rig/rig_core.h). Built and run by tests/test_rigidflex.py.
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <random>
 
 #include "../firmware/rigidflex_rig/rig_core.h"
