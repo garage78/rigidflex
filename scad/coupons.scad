@@ -62,7 +62,9 @@ module rigid_side_2d() {
                 polygon([[0,0],[tooth_depth, tooth_pitch/2],[0, tooth_pitch]]);
         else if (joint == "dovetail")
             for (i = [0:2:n-1]) translate([xm - tooth_depth/2, y0 + i*tooth_pitch])
-                polygon([[0, tooth_pitch*0.25],[tooth_depth, 0],[tooth_depth, tooth_pitch],[0, tooth_pitch*0.75]]);
+                // tips run 10 µm past the tooth band so an edge tooth crosses the coupon edge instead of touching it at
+                // one point (a pinched TPU region that older CGAL refuses to export)
+                polygon([[0, tooth_pitch*0.25],[tooth_depth, -0.01],[tooth_depth, tooth_pitch + 0.01],[0, tooth_pitch*0.75]]);
         else // flat
             translate([xm - tooth_depth/2, -1]) square([tooth_depth/2, grip_w + 2]);
     }
