@@ -10,8 +10,13 @@ Lots of useful parts are rigid with a soft section: grommets, cable pass-through
 
 rigidflex is an open kit for answering that question, and for turning the answer into parts people can print.
 
+### ▶ [Try the configurator in your browser](https://garage78.github.io/rigidflex/)
+
+Pick a grommet, soft jaws or a plate of test coupons, set your sizes, and download a 3MF with every material already on its U1 toolhead. It runs this repository's own OpenSCAD files in the browser (official OpenSCAD WebAssembly build); nothing is installed or uploaded.
+
 | | What | Status |
 |---|---|---|
+| 🌐 | **[Browser configurator](https://garage78.github.io/rigidflex/):** grommets, soft jaws and coupons with live 3D, section and exploded views, and a U1-ready 3MF download | ✅ live; files checked in OrcaSlicer |
 | 🧪 | **Bond-test coupons:** parametric dog-bones; in-layer, lap and **graded three-material** joints | ✅ designed |
 | 🔧 | **Motorised pull-test rig:** 50 kg load cell, ESP32, NEMA17, about 75–100 € of parts; records full force–extension curves | ✅ designed, sized, firmware written and tested in simulation |
 | ⚙️ | **`rigidflex plan`:** the whole campaign (10 plates, 180 coupons, a pre-filled results sheet, a print log and a checklist) in one command | ✅ working |
@@ -149,6 +154,7 @@ python3 scripts/render_rig.py                # regenerate the rig renders
 scad/        coupons, grommet, soft jaw, pull-test rig (parametric OpenSCAD)
 rigidflex/   CLI: plan, kit, rig, stiffness, test, plot, analyze, advise; dependency-free 3MF writer
 firmware/    ESP32 sketch for the rig, with its logic in a hardware-free header
+web/         browser configurator (OpenSCAD WebAssembly + three.js), published with GitHub Pages
 docs/        test protocol; rig sizing, BOM, wiring, assembly, calibration
 data/        results and calibration templates; the U1 dataset goes here
 tests/       unit tests (the fixture CSV is synthetic, not measured data)
@@ -170,7 +176,8 @@ I'm a maker with a PhD in computer engineering and a research background, which 
 
 ## License
 
-- Code and firmware (`rigidflex/`, `firmware/`, `tests/`, `scripts/`): [MIT](LICENSE)
+- Code and firmware (`rigidflex/`, `firmware/`, `web/`, `tests/`, `scripts/`): [MIT](LICENSE)
+- Bundled third-party code in `web/vendor/`: OpenSCAD (GPL-2.0-or-later, unmodified official build) and three.js (MIT); see the notes there
 - Models (`scad/`), data (`data/`), docs and images: [CC BY 4.0](LICENSE-CC-BY-4.0.md), © garage78
 
 No vehicle manufacturer logos are included in any model.

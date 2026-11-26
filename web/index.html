@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rigidflex · rigid + TPU parts for the Snapmaker U1</title>
+<meta name="description" content="Pick a part, set your sizes, download a 3MF with every material already on its U1 toolhead. Runs in your browser.">
+<meta property="og:title" content="rigidflex · rigid + TPU parts for the Snapmaker U1">
+<meta property="og:description" content="Configure grommets, soft jaws and bond-test coupons, and download a 3MF with each material on its own toolhead.">
+<meta property="og:image" content="https://garage78.github.io/rigidflex/img/banner.jpg">
+<meta property="og:url" content="https://garage78.github.io/rigidflex/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='9' width='13' height='14' rx='2' fill='%234f7ea8'/><rect x='16' y='9' width='13' height='14' rx='2' fill='%23e8772e'/></svg>">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.js", "three/addons/": "./vendor/three/addons/" } }
+</script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./"><span class="mark" aria-hidden="true"><i></i><i></i></span>rigidflex</a>
+  <nav>
+    <a href="#configurator">Configurator</a>
+    <a href="#campaign">Test campaign</a>
+    <a href="#rig">Pull rig</a>
+    <a href="https://github.com/garage78/rigidflex">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="kicker">Open kit for the Snapmaker U1 toolchanger</p>
+    <h1>Rigid + TPU in one print, <span>measured.</span></h1>
+    <p class="lede">Pick a part, set your sizes, and download a 3MF with every material already on its toolhead. It runs in your browser with the project's own OpenSCAD files; nothing is uploaded.</p>
+  </section>
+
+  <section id="configurator" class="app">
+    <div class="panel">
+      <div class="tabs" id="tabs" role="tablist" aria-label="Part"></div>
+      <h2 id="model-title"></h2>
+      <p class="blurb" id="model-blurb"></p>
+      <form id="params" onsubmit="return false"></form>
+      <h3>Toolheads</h3>
+      <ul class="legend" id="legend"></ul>
+      <p class="note" id="copies-note"></p>
+      <button id="download" class="download" type="button" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download 3MF for the U1
+      </button>
+      <p class="note">Open it in Snapmaker Orca, put the filaments on the toolheads shown above, and slice. Every part is already assigned.</p>
+    </div>
+    <div class="stage">
+      <div class="view" id="view">
+        <div class="spinner" aria-hidden="true"></div>
+      </div>
+      <div class="viewbar">
+        <label class="slider"><span>Explode</span><input id="explode" type="range" min="0" max="1" step="0.01" value="0"></label>
+        <label class="switch"><input id="section" type="checkbox"><span>Section view</span></label>
+        <span class="status" id="status" role="status" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="campaign" class="band">
+    <div class="band-head">
+      <p class="kicker">Why "measured"</p>
+      <h2>Will TPU stay bonded to PLA, PETG or ASA?</h2>
+      <p>U1 owners keep asking, and nobody has answered with numbers yet. rigidflex is the test campaign that does, run on the U1 and published as open data.</p>
+    </div>
+    <div class="stats">
+      <div><b>180</b><span>bond-test coupons in 10 plates, plus 6 functional parts</span></div>
+      <div><b>3 × 2</b><span>rigid materials (PLA, PETG, ASA) × TPU 95A and 85A</span></div>
+      <div><b>6</b><span>series: joint shape, lap and print order, temperature, heat soak, graded three-material joints, real parts</span></div>
+      <div><b>100 %</b><span>of the raw force–extension curves published, under CC BY 4.0</span></div>
+    </div>
+    <div class="coupons">
+      <figure><img src="img/A_dovetail.png" alt="Dovetail in-layer coupon, rigid and TPU" loading="lazy"><figcaption><b>A</b> in-layer butt joint</figcaption></figure>
+      <figure><img src="img/B.png" alt="Lap-joint coupon with TPU printed on rigid" loading="lazy"><figcaption><b>B</b> lap joint and print order</figcaption></figure>
+      <figure><img src="img/G_graded.png" alt="Graded coupon: rigid, TPU 95A band, TPU 85A" loading="lazy"><figcaption><b>G</b> graded, three materials</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="rig" class="rig">
+    <img src="img/pull_rig.jpg" alt="Render of the motorised pull-test rig with load cell, lead screw and NEMA17" loading="lazy">
+    <div>
+      <p class="kicker">The pull rig</p>
+      <h2>A motorised tensile tester for about 75–100 €</h2>
+      <ul class="facts">
+        <li><b>50 kg S-type load cell</b> read 80 times a second</li>
+        <li><b>Constant 2 mm/s</b> from a NEMA17, a 3:1 belt and a self-locking T8 lead screw</li>
+        <li><b>ESP32 firmware</b> that stops on its own when the coupon breaks and streams the whole curve over USB</li>
+        <li><b>Six printed parts</b>, sized for ≈ 360 N with a 2.5× torque margin</li>
+      </ul>
+      <p><a class="more" href="https://github.com/garage78/rigidflex/blob/main/docs/pull_rig.md">Sizing, parts list, wiring and calibration →</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><b>rigidflex</b> by garage78 · code and firmware MIT, models, data and docs CC BY 4.0 · <a href="https://github.com/garage78/rigidflex">source on GitHub</a></p>
+  <p>Geometry is generated by the official <a href="https://openscad.org">OpenSCAD</a> WebAssembly build (GPL, <a href="https://github.com/openscad/openscad">source</a>). Viewer: <a href="https://threejs.org">three.js</a> (MIT).</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

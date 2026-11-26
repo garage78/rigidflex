@@ -210,5 +210,44 @@ class KitTest(unittest.TestCase):
                 self.assertGreater(len(read_stl(Path(tmp) / f"rig_{p}.stl")), 12)
 
 
+@unittest.skipUnless(shutil.which("node"), "Node.js not installed")
+class WebTest(unittest.TestCase):
+    def test_browser_3mf_writer(self):
+        """The configurator's JavaScript writer produces the same project layout as the Python one."""
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "web.3mf"
+            subprocess.run(["node", str(Path(__file__).parent / "web_3mf.mjs"), str(out)], check=True, capture_output=True)
+            z = zipfile.ZipFile(out)
+            self.assertIsNone(z.testzip())
+            self.assertEqual(z.namelist()[0], "[Content_Types].xml")
+            cfg = minidom.parseString(z.read("Metadata/model_settings.config"))
+            objects = cfg.getElementsByTagName("object")
+            self.assertEqual(len(objects), 2)
+            for obj in objects:
+                meta = {m.getAttribute("key"): m.getAttribute("value") for m in obj.childNodes
+                        if m.nodeType == m.ELEMENT_NODE and m.tagName == "metadata"}
+                self.assertEqual(meta["interlocking_beam"], "1")
+                parts = obj.getElementsByTagName("part")
+                got = {}
+                for p in parts:
+                    pm = {m.getAttribute("key"): m.getAttribute("value") for m in p.getElementsByTagName("metadata")}
+                    got[pm["name"]] = int(pm["extruder"])
+                self.assertEqual(got, {"rigid": 1, "tpu95a": 2, "tpu85a": 3})
+            sub = minidom.parseString(z.read("3D/Objects/object_1.model"))
+            meshes = sub.getElementsByTagName("mesh")
+            self.assertEqual(len(meshes), 3)
+            for m in meshes:  # a cube: 8 shared vertices, 12 triangles
+                self.assertEqual(len(m.getElementsByTagName("vertex")), 8)
+                self.assertEqual(len(m.getElementsByTagName("triangle")), 12)
+
+    def test_web_models_point_at_real_parts(self):
+        """Every scad file and part name the configurator asks for exists in scad/."""
+        web = Path(__file__).parent.parent / "web" / "models.js"
+        src = web.read_text()
+        scad_dir = Path(__file__).parent.parent / "scad"
+        for f in set(__import__("re").findall(r'file: "([\w.]+\.scad)"', src)):
+            self.assertTrue((scad_dir / f).exists(), f)
+
+
 if __name__ == "__main__":
     unittest.main()
