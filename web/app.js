@@ -95,7 +95,7 @@ function showResult(fit) {
   scene.add(grid);
   applyView();
   if (fit) {
-    const r = Math.max(size, 20);
+    const r = Math.max(size, 20) / Math.min(1, Math.max(camera.aspect, 0.4)); // back off on narrow (phone) views
     camera.position.set(center.x + r * 0.9, center.y - r * 1.5, center.z + r * 1.0);
     controls.target.copy(center);
     camera.near = r / 100;

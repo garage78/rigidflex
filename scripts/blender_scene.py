@@ -195,6 +195,7 @@ def shoot(name, cam_loc, target, lens, res, dof=None):
     bpy.ops.render.render(write_still=True)
 
 
-shoot("pull_rig.png", (0.02, -0.62, 0.42), (0.34, 0.0, 0.02), 30, (1920, 1000))
-shoot("pull_rig_detail.png", (0.17, -0.20, 0.13), (0.26, 0.0, 0.025), 40, (1600, 1000), dof=11.0)
-shoot("pull_rig_drive.png", (0.80, -0.24, 0.20), (0.60, 0.0, 0.055), 40, (1600, 1000), dof=11.0)
+if "--no-stills" not in sys.argv:   # scripts/blender_anim.py reuses this scene for the video
+    shoot("pull_rig.png", (0.02, -0.62, 0.42), (0.34, 0.0, 0.02), 30, (1920, 1000))
+    shoot("pull_rig_detail.png", (0.17, -0.20, 0.13), (0.26, 0.0, 0.025), 40, (1600, 1000), dof=11.0)
+    shoot("pull_rig_drive.png", (0.80, -0.24, 0.20), (0.60, 0.0, 0.055), 40, (1600, 1000), dof=11.0)

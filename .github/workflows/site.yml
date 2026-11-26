@@ -20,7 +20,7 @@ jobs:
           mkdir -p _site/scad _site/img
           cp -R web/. _site/
           cp scad/*.scad _site/scad/
-          cp img/*.png img/*.jpg _site/img/
+          cp img/*.png img/*.jpg img/*.mp4 _site/img/
           ls -R _site | head -40
       - uses: actions/upload-pages-artifact@v3
         with:

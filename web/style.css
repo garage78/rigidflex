@@ -101,7 +101,9 @@ section.band { margin: clamp(3rem, 8vw, 5.5rem) 0 0; padding-top: 2.5rem; border
 
 /* rig */
 .rig { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(1.25rem, 4vw, 3rem); align-items: center; margin: clamp(3rem, 8vw, 5.5rem) 0; }
-.rig img { border-radius: var(--radius); border: 1px solid var(--line); }
+.rig-media { margin: 0; }
+.rig-media video { width: 100%; display: block; border-radius: var(--radius); border: 1px solid var(--line); background: #e1ddd4; aspect-ratio: 16 / 9; }
+.rig-media figcaption { color: var(--muted); font-size: .8rem; margin-top: .45rem; }
 .facts { padding-left: 1.1rem; margin: 1rem 0; }
 .facts li { margin-bottom: .45rem; color: var(--muted); }
 .facts b { color: var(--ink); }

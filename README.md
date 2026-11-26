@@ -48,7 +48,8 @@ All of them are **dog-bones**: 20 mm wide grips with M6 pin holes, and a 10 × 3
 
 ## The rig
 
-<p align="center"><img src="img/pull_rig.jpg" width="100%"></p>
+<p align="center"><img src="img/pull_test.gif" width="100%" alt="Simulated pull test on the rig with the live force curve"></p>
+<p align="center"><sub>Simulated test at real speed, rendered from the rig's CAD (illustrative values; <a href="img/pull_test.mp4">1080p MP4</a>).</sub></p>
 
 A small motorised tensile tester:
 - **Load path:** a 50 kg S-type load cell hangs from an anchor wall, and the coupon is pinned between two forks so it lines itself up with the pull.
@@ -60,6 +61,7 @@ Numbers:
 - ≈ 2.5× torque margin, 81 mm of stroke.
 - About 75–100 € of parts, six of them printed.
 
+<p align="center"><img src="img/pull_rig.jpg" width="100%"></p>
 <p align="center"><img src="img/pull_rig_detail.jpg" width="49%"> <img src="img/pull_rig_drive.jpg" width="49%"></p>
 
 The sizing table, bill of materials, wiring, assembly and calibration (force with known masses, rig stiffness with a steel dummy coupon) are in **[docs/pull_rig.md](docs/pull_rig.md)**. The firmware is in **[firmware/](firmware/)**.
@@ -79,7 +81,7 @@ The sizing table, bill of materials, wiring, assembly and calibration (force wit
 
 That makes **180 coupons plus 6 functional parts**. Every pull is saved as a full force–extension curve. Every plate gets its print time and weighed waste logged, next to what a single-nozzle printer with a filament changer would have purged for the same file. The method is in [docs/protocol.md](docs/protocol.md).
 
-**Prediction, to be checked rather than promised:**
+**Prediction, to be checked rather than promised** (grounded in six published studies, see [docs/prior_work.md](docs/prior_work.md)):
 - PLA will not survive the heat soak.
 - A mechanical joint will matter more than temperature.
 - The graded joint will help the soft TPU.
@@ -146,6 +148,7 @@ Your own material pair adds to the dataset: print the plates, pull the coupons, 
 python3 -m unittest discover -s tests -t .   # tests: Python, models, 3MF, firmware logic (C++)
 python3 scripts/render_images.py             # regenerate the part images (Blender + Pillow)
 python3 scripts/render_rig.py                # regenerate the rig renders
+python3 scripts/render_video.py              # regenerate the simulated pull-test video (Blender + ffmpeg)
 ```
 
 ## Repository layout
@@ -155,7 +158,7 @@ scad/        coupons, grommet, soft jaw, pull-test rig (parametric OpenSCAD)
 rigidflex/   CLI: plan, kit, rig, stiffness, test, plot, analyze, advise; dependency-free 3MF writer
 firmware/    ESP32 sketch for the rig, with its logic in a hardware-free header
 web/         browser configurator (OpenSCAD WebAssembly + three.js), published with GitHub Pages
-docs/        test protocol; rig sizing, BOM, wiring, assembly, calibration
+docs/        test protocol; rig sizing, BOM, wiring, assembly, calibration; prior work
 data/        results and calibration templates; the U1 dataset goes here
 tests/       unit tests (the fixture CSV is synthetic, not measured data)
 scripts/     image rendering (OpenSCAD + Blender)
